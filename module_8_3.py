@@ -1,21 +1,31 @@
 class IncorrectVinNumber(Exception):
     def __init__(self, message):
+        super().__init__(message)
         self.message = message
 
 
 class IncorrectCarNumbers(Exception):
     def __init__(self, message):
+        super().__init__(message)
         self.message = message
 
 
 class Car:
     def __init__(self, model, vin, numbers):
         self.model = model
-        self.__vin = vin
-        self.__numbers = numbers
+        self.__vin = None
+        self.__numbers = None
 
-        self.__is_valid_vin(self.__vin)
-        self.__is_valid_numbers(self.__numbers)
+        self.set_vin(vin)
+        self.set_numbers(numbers)
+
+    def set_vin(self, vin_number):
+        if self.__is_valid_vin(vin_number):
+            self.__vin = vin_number
+
+    def set_numbers(self, numbers):
+        if self.__is_valid_numbers(numbers):
+            self.__numbers = numbers
 
     def __is_valid_vin(self, vin_number):
         if not isinstance(vin_number, int):
@@ -30,6 +40,12 @@ class Car:
         if len(numbers) != 6:
             raise IncorrectCarNumbers('Неверная длина номера')
         return True
+
+    def get_vin(self):
+        return self.__vin
+
+    def get_numbers(self):
+        return self.__numbers
 
 
 try:
@@ -58,3 +74,4 @@ except IncorrectCarNumbers as exc:
     print(exc.message)
 else:
     print(f'{third.model} успешно создан')
+    
